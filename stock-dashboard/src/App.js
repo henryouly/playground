@@ -37,6 +37,40 @@ const fetchHistoricalData = async (symbol, startDate, endDate) => {
   }
 };
 
+const fetchStrategy = async (stockData) => {
+  let openValues = [];
+  let closeValues = [];
+  let timeValues = [];
+  stockData.forEach(entry => {
+    openValues.push(entry.open);
+    closeValues.push(entry.close);
+    timeValues.push(entry.time);
+  })
+  let jsonData = {
+    "opening": openValues,
+    "closing": closeValues,
+    "date": timeValues,
+  }
+
+  try {
+    const response = await fetch("http://localhost:8080/strategy/rsi", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      redirect: "follow",
+      body: JSON.stringify(jsonData)
+    })
+
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching strategy:", error);
+  }
+}
+
 export const ChartComponent = props => {
   const {
     data,
@@ -69,23 +103,63 @@ export const ChartComponent = props => {
 
       const candlestickSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
       candlestickSeries.setData(data);
-      const markers = [
-        {
-          time: { year: 2023, month: 3, day: 1 },
-          position: 'belowBar',
-          color: '#26a69a',
-          shape: 'arrowUp',
-          text: 'B',
-        },
-        {
-          time: { year: 2023, month: 8, day: 1 },
-          position: 'aboveBar',
-          color: '#ef5350',
-          shape: 'arrowDown',
-          text: 'S',
-        },
-      ];
-      candlestickSeries.setMarkers(markers);
+      fetchStrategy(data).then(
+        actions => {
+          const action = actions.action
+          let markers = [];
+          for (let i = 0; i < action.length; i++) {
+            if (action[i] === -1) {
+              const dateObject = new Date(1000 * data[i].time);
+              markers.push({
+                time: {
+                  year: dateObject.getFullYear(),
+                  month: dateObject.getMonth() + 1,
+                  day: dateObject.getDate()
+                },
+                position: 'aboveBar',
+                color: '#ef5350',
+                shape: 'arrowDown',
+                text: 'S',
+              })
+            }
+            if (action[i] === 1) {
+              const dateObject = new Date(1000 * data[i].time);
+              markers.push({
+                time: {
+                  year: dateObject.getFullYear(),
+                  month: dateObject.getMonth() + 1,
+                  day: dateObject.getDate()
+                },
+                position: 'belowBar',
+                color: '#26a69a',
+                shape: 'arrowUp',
+                text: 'B',
+              })
+            }
+          }
+          candlestickSeries.setMarkers(markers);
+        }
+      )
+
+
+      // const markers = [
+      //   {
+      //     time: { year: 2023, month: 3, day: 1 },
+      //     position: 'belowBar',
+      //     color: '#26a69a',
+      //     shape: 'arrowUp',
+      //     text: 'B',
+      //   },
+      //   {
+      //     time: { year: 2023, month: 8, day: 1 },
+      //     position: 'aboveBar',
+      //     color: '#ef5350',
+      //     shape: 'arrowDown',
+      //     text: 'S',
+      //   },
+      // ];
+      // candlestickSeries.setMarkers(markers);
+
 
       window.addEventListener('resize', handleResize);
 

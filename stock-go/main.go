@@ -23,6 +23,7 @@ func main() {
 
 	strategyRouter := chi.NewRouter()
 	strategyRouter.Post("/ao", handlerAwesomeOscillatorStrategy)
+	strategyRouter.Post("/rsi", handlerMacdAndRsiStrategy)
 	router.Mount("/strategy", strategyRouter)
 
 	srv := &http.Server{
