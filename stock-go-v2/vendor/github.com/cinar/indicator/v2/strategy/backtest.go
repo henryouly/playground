@@ -12,7 +12,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"sort"
+	"slices"
 	"sync"
 	"text/template"
 	"time"
@@ -152,8 +152,8 @@ func (b *Backtest) runWorkers() []*backtestResult {
 	resultsSlice := helper.ChanToSlice(results)
 
 	// Sort the backtest results by the outcomes.
-	sort.Slice(resultsSlice, func(i, j int) bool {
-		return resultsSlice[i].Outcome > resultsSlice[j].Outcome
+	slices.SortFunc(resultsSlice, func(a, b *backtestResult) int {
+		return int(b.Outcome - a.Outcome)
 	})
 
 	return resultsSlice
@@ -215,8 +215,8 @@ func (b *Backtest) worker(names <-chan string, bestResults chan<- *backtestResul
 		}
 
 		// Sort the backtest results by the outcomes.
-		sort.Slice(results, func(i, j int) bool {
-			return results[i].Outcome > results[j].Outcome
+		slices.SortFunc(results, func(a, b *backtestResult) int {
+			return int(b.Outcome - a.Outcome)
 		})
 
 		// Report the best result for the current asset.
