@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
@@ -33,18 +32,25 @@ func handlerMacdAndRsiStrategy(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	log.Println(params)
-	// dateArray := toTimeArray(params.Date)
-	repository := asset.NewInMemoryRepository()
-	snapshots := []*asset.Snapshot{
-		{Date: time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)},
-		{Date: time.Date(2000, 1, 2, 0, 0, 0, 0, time.UTC)},
-	}
-	err = repository.Append("A", helper.SliceToChan(snapshots))
-	if err != nil {
-		log.Fatal(err)
-	}
+	dateArray := toTimeArray(params.Date)
+	snapshots := make(chan *asset.Snapshot)
+	go func() {
+		defer close(snapshots)
+
+		for i := 0; i < len(dateArray); i++ {
+			snapshots <- &asset.Snapshot{
+				Date:  dateArray[i],
+				Open:  params.Opening[i],
+				Close: params.Closing[i],
+				// High:   params.High[i],
+				// Low:    params.Low[i],
+				// Volume: int64(params.Volume[i]),
+			}
+		}
+	}()
+
 	macdRsi := compound.NewMacdRsiStrategy()
-	actions := macdRsi.Compute(helper.SliceToChan(snapshots))
+	actions := macdRsi.Compute(snapshots)
 
 	respondWithJSON(w, 200, Response{
 		Actions: helper.ChanToSlice(actions),

@@ -14,8 +14,6 @@ import (
 	"time"
 )
 
-var ErrUnsupported = errors.New("unsupported operation")
-
 // TiingoMeta is the response from the meta endpoint.
 // https://www.tiingo.com/documentation/end-of-day
 type TiingoMeta struct {
@@ -122,7 +120,7 @@ func NewTiingoRepository(apiKey string) *TiingoRepository {
 
 // Assets returns the names of all assets in the repository.
 func (*TiingoRepository) Assets() ([]string, error) {
-	return nil, ErrUnsupported
+	return nil, errors.ErrUnsupported
 }
 
 // Get attempts to return a channel of snapshots for the asset with the given name.
@@ -234,5 +232,5 @@ func (r *TiingoRepository) LastDate(name string) (time.Time, error) {
 
 // Append adds the given snapshows to the asset with the given name.
 func (*TiingoRepository) Append(_ string, _ <-chan *Snapshot) error {
-	return ErrUnsupported
+	return errors.ErrUnsupported
 }
