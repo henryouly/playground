@@ -39,12 +39,12 @@ func handlerMacdAndRsiStrategy(w http.ResponseWriter, r *http.Request) {
 
 		for i := 0; i < len(dateArray); i++ {
 			snapshots <- &asset.Snapshot{
-				Date:   dateArray[i],
-				Open:   params.Opening[i],
-				Close:  params.Closing[i],
-				High:   params.High[i],
-				Low:    params.Low[i],
-				Volume: int64(params.Volume[i]),
+				Date:  dateArray[i],
+				Open:  params.Opening[i],
+				Close: params.Closing[i],
+				// High:   params.High[i],
+				// Low:    params.Low[i],
+				// Volume: int64(params.Volume[i]),
 			}
 		}
 	}()
