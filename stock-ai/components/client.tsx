@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 
 import { ChatForm } from "@/components/chat-form";
+import { ChatMessages } from "@/components/chat-messages";
 
 interface ChatClientProps {
 
@@ -49,10 +50,10 @@ export const ChatClient = ({
 
   return (
     <div className="flex flex-col h-full p-4 space-y-2">
-      Chat Client
-      <div>
-        Messages TODO
-      </div>
+      <ChatMessages
+        messages={messages}
+        isLoading={isLoading}
+      />
       <ChatForm
         isLoading={isLoading}
         input={input}
