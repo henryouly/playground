@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "./mode-toggle";
 
 const font = Poppins({
   weight: "600",
@@ -24,6 +25,9 @@ export const Navbar = () => {
             Stock AI
           </h1>
         </Link>
+      </div>
+      <div className="flex items-center gap-x-3">
+        <ModeToggle />
       </div>
     </div>
   )
