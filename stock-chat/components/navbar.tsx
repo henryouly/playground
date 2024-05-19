@@ -22,7 +22,7 @@ export const Navbar = () => {
             "hidden md:block text-xl md:text-3xl font-bold text-primary",
             font.className
           )}>
-            Stock AI
+            Stock Chat
           </h1>
         </Link>
       </div>

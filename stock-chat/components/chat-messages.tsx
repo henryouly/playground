@@ -1,7 +1,8 @@
 "use client";
 
-import { ChatMessage, ChatMessageProps } from "@/components/chat-message";
 import { ElementRef, useEffect, useRef, useState } from "react";
+
+import { ChatMessage, ChatMessageProps } from "@/components/chat-message";
 
 interface ChatMessagesProps {
   messages: ChatMessageProps[];

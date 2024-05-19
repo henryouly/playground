@@ -1,7 +1,6 @@
 "use client";
 
 import { useCompletion } from "ai/react";
-import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 
 import { ChatForm } from "@/components/chat-form";
@@ -14,7 +13,6 @@ interface ChatClientProps {
 
 export const ChatClient = ({
 }: ChatClientProps) => {
-  // const router = useRouter();
   const [messages, setMessages] = useState<ChatMessageProps[]>([]);
 
   const {
@@ -33,8 +31,6 @@ export const ChatClient = ({
 
       setMessages((current) => [...current, systemMessage]);
       setInput("");
-
-      // router.refresh();
     },
   });
 
