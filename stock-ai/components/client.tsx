@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 
 import { ChatForm } from "@/components/chat-form";
 import { ChatMessages } from "@/components/chat-messages";
+import { ChatMessageProps } from "@/components/chat-message";
 
 interface ChatClientProps {
 
@@ -14,7 +15,7 @@ interface ChatClientProps {
 export const ChatClient = ({
 }: ChatClientProps) => {
   // const router = useRouter();
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<ChatMessageProps[]>([]);
 
   const {
     input,
@@ -25,7 +26,7 @@ export const ChatClient = ({
   } = useCompletion({
     api: `/api/chat`,
     onFinish(prompt, completion) {
-      const systemMessage = {
+      const systemMessage: ChatMessageProps = {
         role: "system",
         content: completion,
       };
@@ -38,7 +39,7 @@ export const ChatClient = ({
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const userMessage = {
+    const userMessage: ChatMessageProps = {
       role: "user",
       content: input,
     };
