@@ -3,7 +3,8 @@
 import { useCompletion } from "ai/react";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { ChatForm } from "./chat-form";
+
+import { ChatForm } from "@/components/chat-form";
 
 interface ChatClientProps {
 

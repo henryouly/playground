@@ -5,7 +5,7 @@ import { Poppins } from "next/font/google";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const font = Poppins({
   weight: "600",
