@@ -3,8 +3,9 @@
 import { useTheme } from "next-themes";
 import { BeatLoader } from "react-spinners";
 
-import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { BotAvatar, UserAvatar } from "@/components/avatar";
 
 export interface ChatMessageProps {
   role: "system" | "user",
@@ -32,12 +33,13 @@ export const ChatMessage = ({
       description: "Message copied to clipboard",
     });
   }
+
   return (
     <div className={cn(
       "group flex items-start gap-x-3 py-4 w-full",
       role === "user" && "justify-end"
     )}>
-      {/* {role !== "user" && src && <BotAvatar />} */}
+      {role !== "user" && <BotAvatar />}
       <div className="rounded-md px-4 py-2 max-w-sm text-sm bg-primary/10">
         {isLoading
           ? <BeatLoader
@@ -45,6 +47,7 @@ export const ChatMessage = ({
             color={theme === "light" ? "black" : "white"} />
           : content}
       </div>
+      {role === "user" && <UserAvatar />}
     </div>
   )
 }
