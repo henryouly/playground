@@ -41,8 +41,7 @@ export async function POST(
       await model
         .call(
           `
-         ONLY generate NO more than three sentences as ${name}. DO NOT generate more than three sentences. 
-         Make sure the output you generate starts with '${name}:' and ends with a period.
+         ONLY generate plain sentences without prefix of who is speaking. DO NOT use "${name}:" prefix.
   
          ${preamble}
   
