@@ -3,19 +3,28 @@ import  { StreamingTextResponse } from "ai";
 import { Replicate } from "@langchain/community/llms/replicate";
 import { NextResponse } from "next/server";
 
+import MemoryManager from "@/lib/memory";
+
 export async function POST(
   request: Request,
 ) {
   try {
     const { prompt } = await request.json();
 
-    const preamble = "You are a FINRA certified stock analysis.";
+    const preamble = "You are a FINRA certified stock analysis. Your task is to answer the user's question as helpful as you can.";
 
     const name = "Stock Chat AI";
 
     const relevantHistory = "";
 
-    const recentChatHistory = "";
+    const memoryManager = await MemoryManager.getInstance();
+
+    const records = await memoryManager.readLatestHistory();
+    if (records.length === 0) {
+      // await memoryManager.seedChatHistory(seedchat, "\n\n", companionKey);
+    }
+    await memoryManager.writeToHistory("User: " + prompt + "\n");
+    const recentChatHistory = await memoryManager.readLatestHistory();
 
     const model = new Replicate({
       model:
@@ -40,7 +49,6 @@ export async function POST(
          Below are relevant details about ${name}'s past and the conversation you are in.
          ${relevantHistory}
   
-  
          ${recentChatHistory}\n${name}:`
         )
         .catch(console.error)
@@ -53,6 +61,7 @@ export async function POST(
     const chunks = cleaned.split("\n");
     const response = chunks[0];
 
+    await memoryManager.writeToHistory("" + response.trim());
     var Readable = require("stream").Readable;
 
     let s = new Readable();

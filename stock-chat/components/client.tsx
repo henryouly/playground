@@ -22,7 +22,8 @@ export const ChatClient = ({
     handleSubmit,
     setInput,
   } = useCompletion({
-    api: `/api/chat`,
+    api: "/api/chat",
+    streamMode: "text",
     onFinish(prompt, completion) {
       const systemMessage: ChatMessageProps = {
         role: "system",
@@ -31,6 +32,9 @@ export const ChatClient = ({
 
       setMessages((current) => [...current, systemMessage]);
       setInput("");
+    },
+    onError(error) {
+      console.log("[CHAT CLIENT]", error);
     },
   });
 
