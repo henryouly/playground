@@ -41,7 +41,8 @@ export async function POST(
       await model
         .invoke(
           `
-         ONLY generate plain sentences without prefix of who is speaking. DO NOT use "${name}:" prefix.
+          ONLY generate NO more than three sentences as ${name}. DO NOT generate more than three sentences. 
+          Make sure the output you generate starts with '${name}:' and ends with a period.
   
          ${preamble}
   
@@ -56,11 +57,11 @@ export async function POST(
     // Right now just using super shoddy string manip logic to get at
     // the dialog.
 
-    const cleaned = resp.replaceAll(",", "");
+    const cleaned = resp.replace(`${name}:`, '').trim();
     const chunks = cleaned.split("\n");
-    const response = chunks[0];
+    const response = chunks[0].trim();
 
-    await memoryManager.writeToHistory("" + response.trim());
+    await memoryManager.writeToHistory(`${name}: ${response}`);
     var Readable = require("stream").Readable;
 
     let s = new Readable();
