@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Mic, SendHorizonal } from "lucide-react";
 import { ImageIcon, StopIcon } from "@radix-ui/react-icons";
@@ -21,11 +21,10 @@ export default function ChatBottombar({
   formRef,
   setInput,
 }: ChatProps) {
-  const [message, setMessage] = React.useState(input);
-  const [isMobile, setIsMobile] = React.useState(false);
-  const inputRef = React.useRef<HTMLTextAreaElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkScreenWidth = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -74,26 +73,30 @@ export default function ChatBottombar({
           >
             <TextareaAutosize
               autoComplete="off"
-              value={input}
+              value={
+                input
+              }
               ref={inputRef}
               onKeyDown={handleKeyPress}
               onChange={handleInputChange}
               name="message"
-              placeholder="Enter your prompt here"
+              placeholder={
+                "Enter your prompt here"
+              }
               className=" max-h-24 px-14 bg-accent py-[22px] text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full  rounded-full flex items-center h-16 resize-none overflow-hidden dark:bg-card"
             />
             {!isLoading ? (
               <div className="flex absolute right-3 items-center">
-                <Button
-                  className="shrink-0 rounded-full"
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  onClick={() => { }}
-                  disabled={isLoading}
-                >
-                  <Mic className="w-5 h-5 " />
-                </Button>
+                  <Button
+                    className="shrink-0 rounded-full"
+                    variant="ghost"
+                    size="icon"
+                    type="button"
+                    onClick={() => { }}
+                    disabled={isLoading}
+                  >
+                    <Mic className="w-5 h-5 " />
+                  </Button>
                 <Button
                   className="shrink-0 rounded-full"
                   variant="ghost"

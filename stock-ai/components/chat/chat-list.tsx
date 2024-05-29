@@ -2,16 +2,16 @@ import { Message, useChat } from "ai/react";
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import { INITIAL_QUESTIONS } from "@/lib/initial-questions";
 import { ChatProps } from "./chat";
-// import CodeDisplayBlock from "../code-display-block";
-// import Markdown from "react-markdown";
-// import remarkGfm from "remark-gfm";
-// import { INITIAL_QUESTIONS } from "@/utils/initial-questions";
+import CodeDisplayBlock from "../code-display-block";
+
 
 export default function ChatList({
   messages,
@@ -47,24 +47,24 @@ export default function ChatList({
     }
   }, []);
 
-  // useEffect(() => {
-  //   // Fetch 4 initial questions
-  //   if (messages.length === 0) {
-  //     const questionCount = isMobile ? 2 : 4;
+  useEffect(() => {
+    // Fetch 4 initial questions
+    if (messages.length === 0) {
+      const questionCount = isMobile ? 2 : 4;
 
-  //     setInitialQuestions(
-  //       INITIAL_QUESTIONS.sort(() => Math.random() - 0.5)
-  //         .slice(0, questionCount)
-  //         .map((message) => {
-  //           return {
-  //             id: "1",
-  //             role: "user",
-  //             content: message.content,
-  //           };
-  //         })
-  //     );
-  //   }
-  // }, [isMobile]);
+      setInitialQuestions(
+        INITIAL_QUESTIONS.sort(() => Math.random() - 0.5)
+          .slice(0, questionCount)
+          .map((message) => {
+            return {
+              id: "1",
+              role: "user",
+              content: message.content,
+            };
+          })
+      );
+    }
+  }, [isMobile]);
 
   const onClickQuestion = (value: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -196,7 +196,7 @@ export default function ChatList({
                   </Avatar>
                   <span className="bg-accent p-3 rounded-md max-w-xs sm:max-w-2xl overflow-x-auto">
                     {/* Check if the message content contains a code block */}
-                    {/* {message.content.split("```").map((part, index) => {
+                    {message.content.split("```").map((part, index) => {
                       if (index % 2 === 0) {
                         return (
                           <Markdown key={index} remarkPlugins={[remarkGfm]}>
@@ -210,7 +210,7 @@ export default function ChatList({
                           </pre>
                         );
                       }
-                    })} */}
+                    })}
                     {isLoading &&
                       messages.indexOf(message) === messages.length - 1 && (
                         <span className="animate-pulse" aria-label="Typing">
