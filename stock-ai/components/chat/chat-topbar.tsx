@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CaretSortIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { ChevronsUpDown, Menu } from "lucide-react";
 
 import {
   Popover,
@@ -50,7 +50,7 @@ export default function ChatTopbar({
     <div className="w-full flex px-4 py-6  items-center justify-between lg:justify-center ">
       <Sheet>
         <SheetTrigger>
-          <HamburgerMenuIcon className="lg:hidden w-5 h-5" />
+          <Menu className="lg:hidden w-5 h-5" />
         </SheetTrigger>
         <SheetContent side="left">
           <Sidebar
@@ -72,7 +72,7 @@ export default function ChatTopbar({
             className="w-[300px] justify-between"
           >
             {currentModel || "Select model"}
-            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[300px] p-1">

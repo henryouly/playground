@@ -2,8 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Mic, SendHorizonal } from "lucide-react";
-import { ImageIcon, StopIcon } from "@radix-ui/react-icons";
+import { Mic, SendHorizonal, Square, Image } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { Button } from "@/components/ui/button";
@@ -64,7 +63,7 @@ export default function ChatBottombar({
               variant="ghost"
               size="icon"
             >
-              <ImageIcon className="w-5 h-5" />
+              <Image className="w-5 h-5" />
             </Button>
           </div>
           <form
@@ -128,7 +127,7 @@ export default function ChatBottombar({
                     stop();
                   }}
                 >
-                  <StopIcon className="w-5 h-5  " />
+                  <Square className="w-5 h-5  " />
                 </Button>
               </div>
             )}
