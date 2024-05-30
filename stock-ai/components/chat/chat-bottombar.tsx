@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Mic, SendHorizonal, Square, Image } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -10,35 +10,13 @@ import { Button } from "@/components/ui/button";
 import { ChatProps } from "./chat";
 
 export default function ChatBottombar({
-  messages,
   input,
   handleInputChange,
   handleSubmit,
   isLoading,
-  error,
   stop,
-  formRef,
-  setInput,
 }: ChatProps) {
-  const [isMobile, setIsMobile] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    const checkScreenWidth = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    // Initial check
-    checkScreenWidth();
-
-    // Event listener for screen width changes
-    window.addEventListener("resize", checkScreenWidth);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", checkScreenWidth);
-    };
-  }, []);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

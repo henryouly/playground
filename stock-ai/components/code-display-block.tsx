@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import React from "react";
+import { useState } from "react";
 import { CodeBlock, dracula, github } from "react-code-blocks";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -13,8 +13,8 @@ interface ButtonCodeblockProps {
   lang: string;
 }
 
-export default function CodeDisplayBlock({ code, lang }: ButtonCodeblockProps) {
-  const [isCopied, setisCopied] = React.useState(false);
+export function CodeDisplayBlock({ code, lang }: ButtonCodeblockProps) {
+  const [isCopied, setisCopied] = useState(false);
   const { theme } = useTheme();
 
   const copyToClipboard = () => {

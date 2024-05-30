@@ -1,5 +1,5 @@
-import { Message, useChat } from "ai/react";
-import React, { useRef, useEffect } from "react";
+import { Message } from "ai/react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Markdown from "react-markdown";
@@ -9,27 +9,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { INITIAL_QUESTIONS } from "@/lib/initial-questions";
+import { CodeDisplayBlock } from "@/components/code-display-block";
+
 import { ChatProps } from "./chat";
-import CodeDisplayBlock from "../code-display-block";
 
 
 export default function ChatList({
   messages,
-  input,
   handleInputChange,
-  handleSubmit,
   isLoading,
-  error,
-  stop,
   loadingSubmit,
   formRef,
   isMobile,
 }: ChatProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [name, setName] = React.useState<string>("");
-  const [localStorageIsLoading, setLocalStorageIsLoading] =
-    React.useState(true);
-  const [initialQuestions, setInitialQuestions] = React.useState<Message[]>([]);
+  const [name, setName] = useState<string>("");
+  const [initialQuestions, setInitialQuestions] = useState<Message[]>([]);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -43,7 +38,6 @@ export default function ChatList({
     const username = localStorage.getItem("ollama_user");
     if (username) {
       setName(username);
-      setLocalStorageIsLoading(false);
     }
   }, []);
 
