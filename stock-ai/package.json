@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@agentic/stdlib": "^6.2.2",
-    "@ai-sdk/anthropic": "^0.0.30",
+    "@ai-sdk/anthropic": "^0.0.55",
     "@ai-sdk/openai": "^0.0.71",
     "@langchain/core": "^0.2.2",
     "@langchain/openai": "^0.2.11",
