@@ -19,7 +19,10 @@ export default function Home() {
     stop,
     setMessages,
     setInput,
+    addToolResult,
   } = useChat({
+    api: "/api/use-chat-streaming",
+    maxSteps: 5,
     onResponse: (response) => {
       if (response) {
         setLoadingSubmit(false);
@@ -30,6 +33,12 @@ export default function Home() {
       toast.error("An error occurred. Please try again.");
       console.log(error)
     },
+    onToolCall: ({ toolCall }) => {
+      if (toolCall.toolName === 'showWeatherInformation') {
+        // display tool. add tool result that informs the llm that the tool was executed.
+        return 'Weather information was shown to the user.';
+      }
+    }
   });
   const [chatId, setChatId] = useState<string>("");
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -73,23 +82,23 @@ export default function Home() {
 
   return (
     <main className="flex h-[calc(100dvh)] flex-col items-center ">
-        <ChatLayout
-          chatId=""
-          setSelectedModel={() => {}}
-          messages={messages}
-          input={input}
-          handleInputChange={handleInputChange}
-          handleSubmit={onSubmit}
-          isLoading={isLoading}
-          loadingSubmit={loadingSubmit}
-          error={error}
-          stop={stop}
-          navCollapsedSize={10}
-          defaultLayout={[30, 160]}
-          formRef={formRef}
-          setMessages={setMessages}
-          setInput={setInput}
-        />
+      <ChatLayout
+        chatId=""
+        setSelectedModel={() => { }}
+        messages={messages}
+        input={input}
+        handleInputChange={handleInputChange}
+        handleSubmit={onSubmit}
+        isLoading={isLoading}
+        loadingSubmit={loadingSubmit}
+        error={error}
+        stop={stop}
+        navCollapsedSize={10}
+        defaultLayout={[30, 160]}
+        formRef={formRef}
+        setMessages={setMessages}
+        setInput={setInput}
+      />
     </main>
   );
 }

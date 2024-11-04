@@ -3,6 +3,7 @@ import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages
 import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
+
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
@@ -27,13 +28,7 @@ export async function POST(req: Request) {
   ]);
 
   const stream = await prompt.pipe(model)
-    .stream(
-      (messages as Message[]).map((m) =>
-        m.role == "user"
-          ? new HumanMessage(m.content)
-          : new AIMessage(m.content)
-      )
-    );
+    .stream("");
 
   const aiStream = LangChainAdapter.toAIStream(stream);
   return new StreamingTextResponse(aiStream);

@@ -1,3 +1,4 @@
+import { ToolInvocation } from 'ai';
 import { Message } from "ai/react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
@@ -205,6 +206,30 @@ export default function ChatList({
                         );
                       }
                     })}
+                    {
+                      message.toolInvocations?.map((toolInvocation) => {
+                        const { toolCallId, args } = toolInvocation;
+
+                        // render display weather tool calls:
+                        if (toolInvocation.toolName === 'showWeatherInformation') {
+                          return (
+                            <div
+                              key={toolCallId}
+                              className="p-4 my-2 text-gray-500 border border-gray-300 rounded"
+                            >
+                              <h4 className="mb-2">{args?.city ?? ''}</h4>
+                              <div className="flex flex-col gap-2">
+                                <div className="flex gap-2">
+                                  {args?.weather && <b>{args.weather}</b>}
+                                  {args?.temperature && <b>{args.temperature} &deg;C</b>}
+                                </div>
+                                {args?.typicalWeather && <div>{args.typicalWeather}</div>}
+                              </div>
+                            </div>
+                          );
+                        }
+                      })
+                    }
                     {isLoading &&
                       messages.indexOf(message) === messages.length - 1 && (
                         <span className="animate-pulse" aria-label="Typing">
