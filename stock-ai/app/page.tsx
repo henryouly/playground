@@ -21,7 +21,7 @@ export default function Home() {
     setInput,
     addToolResult,
   } = useChat({
-    api: "/api/use-chat-streaming",
+    api: "/api/mock-backtest",
     maxSteps: 5,
     onResponse: (response) => {
       if (response) {
@@ -34,9 +34,9 @@ export default function Home() {
       console.log(error)
     },
     onToolCall: ({ toolCall }) => {
-      if (toolCall.toolName === 'showWeatherInformation') {
+      if (toolCall.toolName === 'showBacktestResult') {
         // display tool. add tool result that informs the llm that the tool was executed.
-        return 'Weather information was shown to the user.';
+        return 'Backtest result was shown to the user.';
       }
     }
   });

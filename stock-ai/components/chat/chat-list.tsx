@@ -210,8 +210,7 @@ export default function ChatList({
                       message.toolInvocations?.map((toolInvocation) => {
                         const { toolCallId, args } = toolInvocation;
 
-                        // render display weather tool calls:
-                        if (toolInvocation.toolName === 'showWeatherInformation') {
+                        if (toolInvocation.toolName === 'showBacktestResult') {
                           return (
                             <div
                               key={toolCallId}
@@ -220,10 +219,9 @@ export default function ChatList({
                               <h4 className="mb-2">{args?.city ?? ''}</h4>
                               <div className="flex flex-col gap-2">
                                 <div className="flex gap-2">
-                                  {args?.weather && <b>{args.weather}</b>}
-                                  {args?.temperature && <b>{args.temperature} &deg;C</b>}
+                                  {args?.ticker && <b>{args.ticker}</b>}
+                                  {args?.gain && <b>{args.gain}</b>}
                                 </div>
-                                {args?.typicalWeather && <div>{args.typicalWeather}</div>}
                               </div>
                             </div>
                           );
